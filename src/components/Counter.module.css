@@ -1,0 +1,63 @@
+.box {
+    position: absolute;
+    top: 0;
+    left: 0;
+    bottom: 0;
+    right: 0;
+    background-color: hotpink;
+}
+.container {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 40%;
+    /*height: 500px;*/
+    border-radius: 15px;
+    background-color: #8affc3;
+}
+.contHit {
+    width: 500px;
+    height: 500px;
+    background-image: url("../hitman.jpeg");
+}
+.total {
+    transition: 0.4s;
+    font-size: 150px;
+    text-align: center;
+}
+.btnContainer {
+    text-align: center;
+}
+.btn {
+    cursor: pointer;
+    margin: 10px;
+    padding: 20px 40px;
+    color: white;
+    font-size: 20px;
+    font-weight: bold;
+    border: none;
+    border-radius: 5px;
+    background-color: rgba(20,14,13,0.59);
+}
+
+.disabled {
+    opacity: 0.5;
+}
+.totalMax {
+    transition: 0.4s;
+    transform: scale(1.5);
+    text-shadow: 0 0 1px white, 0 0 2px white, 0 0 4px hotpink, 0 0 6px hotpink, 0 0 10px red;
+    color: hotpink;
+    animation: glow 0.3s ease-in-out infinite alternate;
+}
+
+@keyframes glow {
+    from {
+        text-shadow:  0 0 1px white, 0 0 2px white, 0 0 4px hotpink, 0 0 6px hotpink, 0 0 10px red
+    }
+
+    to {
+        text-shadow:  0 0 1px white, 0 0 2px white, 0 0 8px hotpink, 0 0 12px hotpink, 0 0 25px red
+            }
+}
