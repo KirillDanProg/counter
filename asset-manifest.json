@@ -1,0 +1,14 @@
+{
+  "files": {
+    "main.css": "/counter/static/css/main.527a70c7.css",
+    "main.js": "/counter/static/js/main.f987748d.js",
+    "static/media/hitman.jpeg": "/counter/static/media/hitman.9e1559d7487e6a0d528a.jpeg",
+    "index.html": "/counter/index.html",
+    "main.527a70c7.css.map": "/counter/static/css/main.527a70c7.css.map",
+    "main.f987748d.js.map": "/counter/static/js/main.f987748d.js.map"
+  },
+  "entrypoints": [
+    "static/css/main.527a70c7.css",
+    "static/js/main.f987748d.js"
+  ]
+}
