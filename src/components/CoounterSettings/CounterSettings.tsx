@@ -13,10 +13,12 @@ export type CounterSettingsType = {
     error: boolean
 }
 
-export const CounterSettings: FC<CounterSettingsType> = ({
-                                                             maxValue, setMaxValue, startValue, error,
-                                                             setStartValue, applySettings, disabled, setDisabled
-                                                         }) => {
+export const CounterSettings: FC<CounterSettingsType> = (props) => {
+
+    const {
+        maxValue, setMaxValue, startValue, error,
+        setStartValue, applySettings, disabled, setDisabled
+    } = props
 
     const changeMaxValueHandler = (e: React.ChangeEvent<HTMLInputElement>) => {
         setDisabled(false)

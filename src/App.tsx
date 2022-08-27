@@ -4,8 +4,6 @@ import {CounterBox} from "./components/Counter/CounterBox";
 import {CounterSettings} from "./components/CoounterSettings/CounterSettings";
 
 function App() {
-
-
     const initialStartValue = () => {
         const localStartValue = localStorage.getItem("startValue")
         if (localStartValue) {
