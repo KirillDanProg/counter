@@ -12,7 +12,9 @@ type CounterBoxType = {
     startValue: number
 }
 
-export const CounterBox: FC<CounterBoxType> = ({count, setCount, resetCount, maxValue, startValue}) => {
+export const CounterBox: FC<CounterBoxType> = (props) => {
+    const {count, setCount, resetCount, maxValue, startValue} = props
+
     return (
         <div className={`${styles.innerContainer}  ${count >= maxValue ? styles.contHit : ""}`}>
             <div className={styles.mainContent}>
