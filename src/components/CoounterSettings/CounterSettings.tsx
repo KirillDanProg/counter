@@ -1,6 +1,8 @@
 import React, {FC} from "react";
 import styles from "../Counter.module.css"
-import {Button} from "../Counter/Button";
+import {Button} from "@mui/material";
+import {TextField} from "@mui/material";
+
 
 export type CounterSettingsType = {
     maxValue: number
@@ -15,10 +17,7 @@ export type CounterSettingsType = {
 
 export const CounterSettings: FC<CounterSettingsType> = (props) => {
 
-    const {
-        maxValue, setMaxValue, startValue, error,
-        setStartValue, applySettings, disabled, setDisabled
-    } = props
+    const {maxValue, setMaxValue, startValue, setStartValue, applySettings, disabled, setDisabled} = props
 
     const changeMaxValueHandler = (e: React.ChangeEvent<HTMLInputElement>) => {
         setDisabled(false)
@@ -32,26 +31,26 @@ export const CounterSettings: FC<CounterSettingsType> = (props) => {
     return (
         <div className={styles.innerContainer}>
             <div className={styles.mainContent}>
-                <label className={styles.setInputLabel}>
-                    Max value:
-                    <input value={maxValue}
+                <TextField value={maxValue}
+                           color="secondary"
                            onChange={changeMaxValueHandler}
-                           className={styles.setInput} type={"number"}/>
-                </label>
-                <label className={styles.setInputLabel}>
-                    Start value:
-                    <input value={startValue}
+                           type={"number"}
+                           label={"Max value:"}
+                />
+                <TextField value={startValue}
+                           color="secondary"
                            onChange={changeStartValueHandler}
-                           className={`${styles.setInput} ${error ? styles.error : ''}`} type={"number"}
-                    />
-                </label>
-                {error ? <div className={styles.errorMessage}>Only positive number is available</div> : ""}
+                           type={"number"}
+                           label={"Start value:"}
+                />
             </div>
             <div className={styles.secondaryContent}>
-                <Button className={`${styles.btn} ${disabled ? styles.disabled : ""}`}
-                        title={"set"}
-                        callback={applySettings}
-                        disabled={disabled}/>
+                <Button variant={"outlined"}
+                        onClick={applySettings}
+                        disabled={disabled}>
+                    Set
+                </Button>
+
             </div>
         </div>
     )

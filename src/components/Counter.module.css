@@ -60,9 +60,10 @@
 
 .btn {
     cursor: pointer;
-    padding: 20px 40px;
+    margin-right: 3px;
+    padding: 10px 15px;
     color: white;
-    font-size: 20px;
+    font-size: 18px;
     font-weight: bold;
     border: none;
     border-radius: 5px;
