@@ -2,6 +2,13 @@ import React from 'react';
 import styles from "./components/Counter.module.css"
 import {CounterBox} from "./components/Counter/CounterBox";
 import {CounterSettings} from "./components/CoounterSettings/CounterSettings";
+import {counterReducer, incrementAC, resetCountAC, setMaxValueAC, setStartValueAC} from "./reducer/counterReducer";
+
+export type StateType = {
+    startValue: number
+    maxValue: number
+    count: number
+}
 
 function App() {
     const initialStartValue = () => {
@@ -11,8 +18,6 @@ function App() {
         }
         return 0
     }
-    const [startValue, setStartValue] = React.useState(initialStartValue)
-
     const initialMaxValue = () => {
         const localMaxVal = localStorage.getItem("maxValue")
         if (localMaxVal) {
@@ -20,8 +25,6 @@ function App() {
         }
         return 0
     }
-    const [maxValue, setMaxValue] = React.useState(initialMaxValue)
-
     const initialCountValue = () => {
         const localCountValue = localStorage.getItem("count")
         if(localCountValue) {
@@ -30,33 +33,37 @@ function App() {
             return 0
         }
     }
-    const [count, setCount] = React.useState(initialCountValue)
 
-    const [disabled, setDisabled] = React.useState(true)
+    const initialCounterState = {
+        startValue: initialStartValue(),
+        maxValue: initialMaxValue(),
+        count: initialCountValue()
+    }
 
+    const [state, dispatchCounter] = React.useReducer(counterReducer, initialCounterState)
+    const [disabled, setDisabled] = React.useState(false)
     const [error, setError] = React.useState(false)
 
     const applySettings = () => {
-        localStorage.setItem("maxValue", JSON.stringify(maxValue))
-        localStorage.setItem("startValue", JSON.stringify(startValue))
+        localStorage.setItem("maxValue", JSON.stringify(state.maxValue))
+        localStorage.setItem("startValue", JSON.stringify(state.startValue))
         setDisabled(true)
-        setCount(startValue)
     }
 
-    const incCountHandler = () => {
-        setCount(count + 1)
+    const countHandler = (n: number) => {
+        dispatchCounter(incrementAC(n))
     }
     const resetHandler = () => {
-        setCount(startValue)
+        dispatchCounter(resetCountAC())
     }
 
     const setStartValueHandler = (newStartValue: number) => {
-        setStartValue(newStartValue)
+        dispatchCounter(setStartValueAC(newStartValue))
     }
 
     const setMaxValueHandler = (newMaxValue: number) => {
         setDisabled(false)
-        setMaxValue(newMaxValue)
+        dispatchCounter(setMaxValueAC(newMaxValue))
     }
 
     const setDisabledButtonsHandler = (isDisabled: boolean) => {
@@ -64,33 +71,33 @@ function App() {
     }
 
     React.useEffect(() => {
-        localStorage.setItem("count", JSON.stringify(count))
-    }, [count])
+        localStorage.setItem("count", JSON.stringify(state.count))
+    }, [state.count])
 
     React.useEffect(() => {
-        if(startValue < 0) {
+        if (state.startValue < 0) {
             setError(true)
             setDisabled(true)
         } else {
             setError(false)
         }
-    }, [startValue])
+    }, [state.startValue])
 
 
     return (
-        <div className={count >= 5 ? styles.box : ""}>
+        <div className={state.count >= 5 ? styles.box : ""}>
             <div className={`${styles.container}`}>
 
-                <CounterBox count={count}
-                            setCount={incCountHandler}
+                <CounterBox count={state.count}
+                            setCount={countHandler}
                             resetCount={resetHandler}
-                            maxValue={maxValue}
-                            startValue={startValue}
+                            maxValue={state.maxValue}
+                            startValue={state.startValue}
                 />
 
-                <CounterSettings maxValue={maxValue}
+                <CounterSettings maxValue={state.maxValue}
                                  setMaxValue={setMaxValueHandler}
-                                 startValue={startValue}
+                                 startValue={state.startValue}
                                  applySettings={applySettings}
                                  setStartValue={setStartValueHandler}
                                  disabled={disabled}
