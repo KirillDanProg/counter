@@ -60,9 +60,10 @@
 
 .btn {
     cursor: pointer;
-    padding: 20px 40px;
+    margin-right: 3px;
+    padding: 10px 15px;
     color: white;
-    font-size: 20px;
+    font-size: 18px;
     font-weight: bold;
     border: none;
     border-radius: 5px;
@@ -109,8 +110,10 @@
 }
 
 .errorMessage {
-    color: rgba(255, 6, 72, 0.98);
-    font-size: 14px;
+    color: #ff0309;
+    font-size: 16px;
+    font-weight: bold;
+    text-transform: uppercase;
 }
 
 @keyframes glow {

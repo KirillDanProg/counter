@@ -1,58 +1,49 @@
 import React, {FC} from "react";
 import styles from "../Counter.module.css"
-import {Button} from "../Counter/Button";
+import {CounterSettingsContainerPropsType} from "./CounterSettingsContainer";
+import {MaxValue} from "./MaxValue";
+import {MinValue} from "./MinValue";
 
-export type CounterSettingsType = {
-    maxValue: number
-    setMaxValue: (newMaxValue: number) => void
-    startValue: number
-    setStartValue: (newStartValue: number) => void
-    applySettings: () => void
-    disabled: boolean
-    setDisabled: (isDis: boolean) => void
-    error: boolean
-}
 
-export const CounterSettings: FC<CounterSettingsType> = (props) => {
+export const CounterSettings: FC<CounterSettingsContainerPropsType> = (props) => {
 
-    const {
-        maxValue, setMaxValue, startValue, error,
-        setStartValue, applySettings, disabled, setDisabled
-    } = props
+    const {setMaxValue, setMinValue, counter, setError, setErrorMessage} = props
 
-    const changeMaxValueHandler = (e: React.ChangeEvent<HTMLInputElement>) => {
-        setDisabled(false)
-        setMaxValue(JSON.parse(e.currentTarget.value))
+    const changeMaxValueHandler = (max: number) => {
+        if (max < counter.minValue) {
+            setError(true)
+            setErrorMessage("value should be greater than minValue")
+        } else {
+            setError(false)
+            setMaxValue(max)
+        }
+
     }
-
-    const changeStartValueHandler = (e: React.ChangeEvent<HTMLInputElement>) => {
-        setDisabled(false)
-        setStartValue(JSON.parse(e.currentTarget.value))
+    const changeStartValueHandler = (min: number) => {
+        if (min > counter.maxValue) {
+            setError(true)
+            setErrorMessage("value should be less than maxValue ")
+        } else if (min < 0) {
+            setError(true)
+            setErrorMessage("only positive number is available")
+        } else {
+            setError(false)
+            setMinValue(min)
+        }
     }
     return (
         <div className={styles.innerContainer}>
             <div className={styles.mainContent}>
-                <label className={styles.setInputLabel}>
-                    Max value:
-                    <input value={maxValue}
-                           onChange={changeMaxValueHandler}
-                           className={styles.setInput} type={"number"}/>
-                </label>
-                <label className={styles.setInputLabel}>
-                    Start value:
-                    <input value={startValue}
-                           onChange={changeStartValueHandler}
-                           className={`${styles.setInput} ${error ? styles.error : ''}`} type={"number"}
-                    />
-                </label>
-                {error ? <div className={styles.errorMessage}>Only positive number is available</div> : ""}
-            </div>
-            <div className={styles.secondaryContent}>
-                <Button className={`${styles.btn} ${disabled ? styles.disabled : ""}`}
-                        title={"set"}
-                        callback={applySettings}
-                        disabled={disabled}/>
+
+                <MaxValue maxValue={counter.maxValue} error={counter.error} changeMaxValue={changeMaxValueHandler}/>
+
+
+                <MinValue minValue={counter.minValue} changeMinValue={changeStartValueHandler} error={counter.error}/>
+
+                {counter.error ? <div className={styles.errorMessage}>{counter.errorMessage}</div> : ""}
             </div>
         </div>
     )
 };
+
+
