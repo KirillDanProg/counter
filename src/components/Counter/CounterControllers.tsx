@@ -1,5 +1,5 @@
 import React, {FC} from "react";
-import {Button} from "@mui/material";
+import {Button} from "./Button";
 import styles from "../Counter.module.css"
 
 type CounterControllersType = {
@@ -10,34 +10,22 @@ type CounterControllersType = {
     startValue: number
 }
 export const CounterControllers: FC<CounterControllersType> = ({setCount, count, resetCount, maxValue, startValue}) => {
+
     const increaseHandler = () => {
-        setCount(1)
+        setCount(count++)
     }
+
     const resetHandler = () => {
         resetCount()
-    }
-    const decrementHandler = () => {
-        setCount(-1)
     }
 
     return (
 
         <div className={styles.btnContainer}>
-            <Button variant={"outlined"}
-                    onClick={increaseHandler}
-                    disabled={count >= maxValue}>
-                Increment
-            </Button>
-            <Button variant={"outlined"}
-                    onClick={decrementHandler}
-                    disabled={count <= startValue}>
-                Decrement
-            </Button>
-            <Button variant={"outlined"}
-                    onClick={resetHandler}>
-                Reset
-            </Button>
-
+            <Button title={"inc"} callback={increaseHandler} disabled={count >= maxValue}
+                    className={`${styles.btn} ${count >= maxValue ? styles.disabled : ""}`}/>
+            <Button title={"reset"} callback={resetHandler} disabled={count <= startValue}
+                    className={`${styles.btn} ${count <= startValue ? styles.disabled : ""}`}/>
         </div>
 
     )
