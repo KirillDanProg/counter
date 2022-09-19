@@ -1,0 +1,15 @@
+*{
+    margin: 0;
+    padding: 0;
+}
+.wrapper {
+    height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background-color: rgba(5,4,6,0.85);
+}
+.counterBox {
+    display: flex;
+    gap: 100px;
+}
