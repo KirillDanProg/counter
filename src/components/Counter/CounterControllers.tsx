@@ -4,19 +4,20 @@ import styles from "../Counter.module.css"
 
 type CounterControllersType = {
     count: number
-    setCount: (n: number) => void
-    resetCount: () => void
     maxValue: number
-    startValue: number
+    minValue: number
+    incrementCount: () => void
+    resetCount: () => void
 }
-export const CounterControllers: FC<CounterControllersType> = ({setCount, count, resetCount, maxValue, startValue}) => {
+export const CounterControllers: FC<CounterControllersType> = (props) => {
+    const {count, maxValue, minValue} = props
 
     const increaseHandler = () => {
-        setCount(count++)
+       props.incrementCount()
     }
 
     const resetHandler = () => {
-        resetCount()
+        props.resetCount()
     }
 
     return (
@@ -24,8 +25,8 @@ export const CounterControllers: FC<CounterControllersType> = ({setCount, count,
         <div className={styles.btnContainer}>
             <Button title={"inc"} callback={increaseHandler} disabled={count >= maxValue}
                     className={`${styles.btn} ${count >= maxValue ? styles.disabled : ""}`}/>
-            <Button title={"reset"} callback={resetHandler} disabled={count <= startValue}
-                    className={`${styles.btn} ${count <= startValue ? styles.disabled : ""}`}/>
+            <Button title={"reset"} callback={resetHandler} disabled={count <= minValue}
+                    className={`${styles.btn} ${count <= minValue ? styles.disabled : ""}`}/>
         </div>
 
     )
