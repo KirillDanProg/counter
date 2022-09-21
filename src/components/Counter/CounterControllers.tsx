@@ -1,34 +1,36 @@
-import React, {FC} from "react";
+import React, {FC, useCallback} from "react";
 import {Button} from "./Button";
 import styles from "../Counter.module.css"
 
 type CounterControllersType = {
-    count: number
-    maxValue: number
-    minValue: number
+    isMax: boolean
+    isMin: boolean
     incrementCount: () => void
     resetCount: () => void
 }
-export const CounterControllers: FC<CounterControllersType> = (props) => {
-    const {count, maxValue, minValue} = props
+export const CounterControllers: FC<CounterControllersType> = React.memo((props) => {
 
-    const increaseHandler = () => {
+    console.log("Counter controllers")
+
+    const {isMin, isMax} = props
+
+    const increaseHandler = useCallback(() => {
        props.incrementCount()
-    }
+    }, [])
 
-    const resetHandler = () => {
+    const resetHandler = useCallback(() => {
         props.resetCount()
-    }
+    },[props.resetCount])
 
     return (
 
         <div className={styles.btnContainer}>
-            <Button title={"inc"} callback={increaseHandler} disabled={count >= maxValue}
-                    className={`${styles.btn} ${count >= maxValue ? styles.disabled : ""}`}/>
-            <Button title={"reset"} callback={resetHandler} disabled={count <= minValue}
-                    className={`${styles.btn} ${count <= minValue ? styles.disabled : ""}`}/>
+            <Button title={"inc"} callback={increaseHandler} disabled={isMax}
+                    className={`${styles.btn} ${isMax ? styles.disabled : ""}`}/>
+            <Button title={"reset"} callback={resetHandler} disabled={isMin}
+                    className={`${styles.btn} ${isMin ? styles.disabled : ""}`}/>
         </div>
 
     )
-}
+})
 

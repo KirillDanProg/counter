@@ -1,16 +1,26 @@
 import React, {FC} from "react";
 import styles from "../Counter.module.css"
-import {CounterSettingsContainerPropsType} from "./CounterSettingsContainer";
 import {MaxValue} from "./MaxValue";
 import {MinValue} from "./MinValue";
 
+type CounterSettingsPropsType = {
+    setMinValue: (minValue: number) => void
+    setMaxValue: (maxValue: number) => void
+    setError: (e: boolean) => void
+    setErrorMessage: (errorMessage: string) => void
+    minValue: number
+    maxValue: number
+    error: boolean
+    errorMessage: string
+}
+export const CounterSettings: FC<CounterSettingsPropsType> = React.memo((props) => {
 
-export const CounterSettings: FC<CounterSettingsContainerPropsType> = (props) => {
+    console.log("Settings")
 
-    const {setMaxValue, setMinValue, counter, setError, setErrorMessage} = props
+    const {setMaxValue, setMinValue, setError, setErrorMessage, minValue, maxValue, error, errorMessage} = props
 
     const changeMaxValueHandler = (max: number) => {
-        if (max < counter.minValue) {
+        if (max < minValue) {
             setError(true)
             setErrorMessage("value should be greater than minValue")
         } else {
@@ -20,7 +30,7 @@ export const CounterSettings: FC<CounterSettingsContainerPropsType> = (props) =>
 
     }
     const changeStartValueHandler = (min: number) => {
-        if (min > counter.maxValue) {
+        if (min > maxValue) {
             setError(true)
             setErrorMessage("value should be less than maxValue ")
         } else if (min < 0) {
@@ -35,15 +45,15 @@ export const CounterSettings: FC<CounterSettingsContainerPropsType> = (props) =>
         <div className={styles.innerContainer}>
             <div className={styles.mainContent}>
 
-                <MaxValue maxValue={counter.maxValue} error={counter.error} changeMaxValue={changeMaxValueHandler}/>
+                <MaxValue maxValue={maxValue} error={error} changeMaxValue={changeMaxValueHandler}/>
 
 
-                <MinValue minValue={counter.minValue} changeMinValue={changeStartValueHandler} error={counter.error}/>
+                <MinValue minValue={minValue} changeMinValue={changeStartValueHandler} error={error}/>
 
-                {counter.error ? <div className={styles.errorMessage}>{counter.errorMessage}</div> : ""}
+                {error ? <div className={styles.errorMessage}>{errorMessage}</div> : ""}
             </div>
         </div>
     )
-};
+});
 
 

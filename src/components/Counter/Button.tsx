@@ -9,6 +9,8 @@ type ButtonType = {
 }
 export const Button: FC<ButtonType> = ({title, callback, disabled, className}) => {
 
+    console.log("Button")
+
     const onClickHandler = () => {
         callback()
     }

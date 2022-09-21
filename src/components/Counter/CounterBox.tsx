@@ -1,43 +1,39 @@
 import styles from "../Counter.module.css";
-import React from "react";
+import React, {FC, useCallback} from "react";
 import {CounterControllers} from "./CounterControllers";
 import {CounterTotal} from "./CounterTotal";
-import {useDispatch, useSelector} from "react-redux";
-import {RootState} from "../../store/store";
-import {StateType} from "../../App";
-import {incrementAC, resetCountAC} from "../../store/reducer/counterReducer";
 
+type CounterBoxPropsType = {
+    count: number
+    isMax: boolean
+    isMin: boolean
+    incrementCount: () => void
+    resetCount: () => void
+}
+export const CounterBox: FC<CounterBoxPropsType> = React.memo((props) => {
 
-export const CounterBox = () => {
+    const {count, incrementCount, resetCount, isMax, isMin} = props
+    const x = useCallback(incrementCount, [])
+    const y = useCallback(resetCount, [])
 
-    const {count, maxValue, minValue} = useSelector<RootState, StateType>(state => state.counter)
-    const dispatch = useDispatch()
-
-    const incrementCount = () => {
-        dispatch(incrementAC())
-    }
-    const resetCount = () => {
-        dispatch(resetCountAC())
-    }
-
+    console.log("CounterBox")
 
     return (
-        <div className={`${styles.innerContainer}  ${count >= maxValue ? styles.contHit : ""}`}>
+        <div className={`${styles.innerContainer}  ${isMax ? styles.contHit : ""}`}>
             <div className={styles.mainContent}>
                 <CounterTotal count={count}
-                              maxValue={maxValue}
+                              isMax={isMax}
                 />
             </div>
 
             <div className={styles.secondaryContent}>
-                <CounterControllers count={count}
-                                    incrementCount={incrementCount}
-                                    resetCount={resetCount}
-                                    maxValue={maxValue}
-                                    minValue={minValue}
+                <CounterControllers incrementCount={x}
+                                    resetCount={y}
+                                    isMax={isMax}
+                                    isMin={isMin}
                 />
             </div>
         </div>
     )
-}
+})
 

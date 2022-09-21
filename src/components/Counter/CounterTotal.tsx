@@ -3,13 +3,17 @@ import styles from "../Counter.module.css"
 
 type CounterTotalType = {
     count: number
-    maxValue: number
+    isMax: boolean
 }
-export const CounterTotal: FC<CounterTotalType> = ({count, maxValue}) => {
+export const CounterTotal: FC<CounterTotalType> = React.memo(({count, isMax}) => {
+
+
+
+    console.log("Total")
 
     return (
-        <div className={`${styles.total} ${count >= maxValue ? styles.totalMax : ""}`}>
+        <div className={`${styles.total} ${isMax ? styles.totalMax : ""}`}>
             {count}
         </div>
     )
-}
+})
