@@ -1,7 +1,7 @@
 import React from 'react';
-import {CounterBoxContainer} from "./components/Counter/CounterBoxContainer";
 import {CounterSettingsContainer} from "./components/CoounterSettings/CounterSettingsContainer";
 import "./App.css"
+import {CounterBox } from "./components/Counter/CounterBox";
 
 export type StateType = {
     minValue: number
@@ -17,7 +17,7 @@ function App() {
         <div className={"wrapper"}>
             <div className={"counterBox"}>
 
-                <CounterBoxContainer/>
+                <CounterBox  />
 
                 <CounterSettingsContainer/>
 

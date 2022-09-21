@@ -1,27 +1,40 @@
 import styles from "../Counter.module.css";
-import React, {FC} from "react";
+import React from "react";
 import {CounterControllers} from "./CounterControllers";
 import {CounterTotal} from "./CounterTotal";
-import {CounterBoxContainerPropsType} from "./CounterBoxContainer";
+import {useDispatch, useSelector} from "react-redux";
+import {RootState} from "../../store/store";
+import {StateType} from "../../App";
+import {incrementAC, resetCountAC} from "../../store/reducer/counterReducer";
 
 
-export const CounterBox: FC<CounterBoxContainerPropsType> = (props) => {
-    const {counter, incrementCount, resetCount} = props
+export const CounterBox = () => {
+
+    const {count, maxValue, minValue} = useSelector<RootState, StateType>(state => state.counter)
+    const dispatch = useDispatch()
+
+    const incrementCount = () => {
+        dispatch(incrementAC())
+    }
+    const resetCount = () => {
+        dispatch(resetCountAC())
+    }
+
 
     return (
-        <div className={`${styles.innerContainer}  ${counter.count >= counter.maxValue ? styles.contHit : ""}`}>
+        <div className={`${styles.innerContainer}  ${count >= maxValue ? styles.contHit : ""}`}>
             <div className={styles.mainContent}>
-                <CounterTotal count={counter.count}
-                              maxValue={counter.maxValue}
+                <CounterTotal count={count}
+                              maxValue={maxValue}
                 />
             </div>
 
             <div className={styles.secondaryContent}>
-                <CounterControllers count={counter.count}
+                <CounterControllers count={count}
                                     incrementCount={incrementCount}
                                     resetCount={resetCount}
-                                    maxValue={counter.maxValue}
-                                    minValue={counter.minValue}
+                                    maxValue={maxValue}
+                                    minValue={minValue}
                 />
             </div>
         </div>
