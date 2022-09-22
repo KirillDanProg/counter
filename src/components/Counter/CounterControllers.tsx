@@ -1,26 +1,29 @@
 import React, {FC, useCallback} from "react";
 import {Button} from "./Button";
 import styles from "../Counter.module.css"
-import {useDispatch, useSelector} from "react-redux";
-import {RootState} from "../../store/store";
+import {useDispatch} from "react-redux";
 import {incrementAC, resetCountAC} from "../../store/reducer/counterReducer";
 
-export const CounterControllers = () => {
+type CounterControllersPropsType = {
+    maxValue: number
+    minValue: number
+    count: number
+}
+export const CounterControllers: FC<CounterControllersPropsType>= React.memo((props) => {
+
+    const {count, maxValue, minValue} = props
 
     console.log("Counter controllers")
 
-    const maxValue = useSelector<RootState, number>(state => state.counter.maxValue)
-    const minValue = useSelector<RootState, number>(state => state.counter.minValue)
-    const count = useSelector<RootState, number>(state => state.counter.count)
     const dispatch = useDispatch()
 
 
-    const increaseHandler = () => {
+    const increaseHandler = useCallback(() => {
         dispatch(incrementAC())
-    }
-    const resetHandler = () => {
+    }, [dispatch])
+    const resetHandler = useCallback(() => {
         dispatch(resetCountAC())
-    }
+    }, [dispatch])
 
     return (
 
@@ -32,5 +35,5 @@ export const CounterControllers = () => {
         </div>
 
     )
-}
+})
 

@@ -1,17 +1,18 @@
-import React from "react";
+import React, {FC} from "react";
 import styles from "../Counter.module.css"
-import {useSelector} from "react-redux";
-import {RootState} from "../../store/store";
 
+type CounterTotalPropsType = {
+    count: number
+    maxValue: number
+}
 
-export const CounterTotal= React.memo(() => {
+export const CounterTotal: FC<CounterTotalPropsType>= React.memo((props) => {
+    const {count, maxValue} = props
+
     console.log("Total")
 
-    const count = useSelector<RootState, number>(state => state.counter.count)
-    const max = useSelector<RootState, number>(state => state.counter.maxValue)
-
     return (
-        <div className={`${styles.total} ${count >= max ? styles.totalMax : ""}`}>
+        <div className={`${styles.total} ${count >= maxValue ? styles.totalMax : ""}`}>
             {count}
         </div>
     )
