@@ -16,7 +16,10 @@ const rootReducer = combineReducers({
 
 const persistedReducer = persistReducer(persistConfig, rootReducer)
 
+
+// type for all app
 export type RootState = ReturnType<typeof store.getState>
+
 export const store = createStore(persistedReducer)
 
 export let persistor = persistStore(store)

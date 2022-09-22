@@ -1,5 +1,5 @@
 import styles from "../Counter.module.css";
-import React, {FC, useCallback} from "react";
+import React from "react";
 import {CounterControllers} from "./CounterControllers";
 import {CounterTotal} from "./CounterTotal";
 import {useSelector} from "react-redux";
@@ -7,6 +7,7 @@ import {RootState} from "../../store/store";
 
 export const CounterBox = React.memo(() => {
 
+    const minValue = useSelector<RootState, number>(state => state.counter.minValue)
     const maxValue = useSelector<RootState, number>(state => state.counter.maxValue)
     const count = useSelector<RootState, number>(state => state.counter.count)
 
@@ -15,11 +16,11 @@ export const CounterBox = React.memo(() => {
     return (
         <div className={`${styles.innerContainer}  ${count >= maxValue ? styles.contHit : ""}`}>
             <div className={styles.mainContent}>
-                <CounterTotal/>
+                <CounterTotal count={count} maxValue={maxValue}/>
             </div>
 
             <div className={styles.secondaryContent}>
-                <CounterControllers />
+                <CounterControllers count={count} maxValue={maxValue} minValue={minValue}/>
             </div>
         </div>
     )
