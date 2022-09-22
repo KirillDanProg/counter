@@ -13,7 +13,7 @@ export const CounterBox = React.memo(() => {
     console.log("CounterBox")
 
     return (
-        <div className={`${styles.innerContainer}  ${count <= maxValue ? styles.contHit : ""}`}>
+        <div className={`${styles.innerContainer}  ${count >= maxValue ? styles.contHit : ""}`}>
             <div className={styles.mainContent}>
                 <CounterTotal/>
             </div>
