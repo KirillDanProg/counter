@@ -1,16 +1,17 @@
 import styles from "../Counter.module.css";
 import React, {FC} from "react";
+import {useDispatch, useSelector} from "react-redux";
+import {RootState} from "../../store/store";
+import {setMaxValueAC} from "../../store/reducer/counterReducer";
 
-type MaxValuePropsType = {
-    maxValue: number
-    changeMaxValue: (max: number) => void
-    error: boolean
-}
-export const MaxValue: FC<MaxValuePropsType> = ({maxValue, changeMaxValue, ...props}) => {
+export const MaxValue = () => {
+
+    const maxValue = useSelector<RootState, number>(state => state.counter.maxValue)
+    const dispatch = useDispatch()
 
     const changeMaxValueHandler = (e: React.ChangeEvent<HTMLInputElement>) => {
         const max = JSON.parse(e.currentTarget.value)
-        changeMaxValue(max)
+       dispatch(setMaxValueAC(max))
     }
 
     return (

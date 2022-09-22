@@ -1,54 +1,26 @@
-import React, {FC} from "react";
+import React from "react";
 import styles from "../Counter.module.css"
 import {MaxValue} from "./MaxValue";
 import {MinValue} from "./MinValue";
+import {useSelector} from "react-redux";
+import {RootState} from "../../store/store";
 
-type CounterSettingsPropsType = {
-    setMinValue: (minValue: number) => void
-    setMaxValue: (maxValue: number) => void
-    setError: (e: boolean) => void
-    setErrorMessage: (errorMessage: string) => void
-    minValue: number
-    maxValue: number
-    error: boolean
-    errorMessage: string
-}
-export const CounterSettings: FC<CounterSettingsPropsType> = React.memo((props) => {
+
+export const CounterSettings = React.memo(() => {
 
     console.log("Settings")
 
-    const {setMaxValue, setMinValue, setError, setErrorMessage, minValue, maxValue, error, errorMessage} = props
+    const error = useSelector<RootState, boolean>(state => state.counter.error)
+    const errorMessage = useSelector<RootState, string>(state => state.counter.errorMessage)
 
-    const changeMaxValueHandler = (max: number) => {
-        if (max < minValue) {
-            setError(true)
-            setErrorMessage("value should be greater than minValue")
-        } else {
-            setError(false)
-            setMaxValue(max)
-        }
-
-    }
-    const changeStartValueHandler = (min: number) => {
-        if (min > maxValue) {
-            setError(true)
-            setErrorMessage("value should be less than maxValue ")
-        } else if (min < 0) {
-            setError(true)
-            setErrorMessage("only positive number is available")
-        } else {
-            setError(false)
-            setMinValue(min)
-        }
-    }
     return (
         <div className={styles.innerContainer}>
             <div className={styles.mainContent}>
 
-                <MaxValue maxValue={maxValue} error={error} changeMaxValue={changeMaxValueHandler}/>
+                <MaxValue/>
 
 
-                <MinValue minValue={minValue} changeMinValue={changeStartValueHandler} error={error}/>
+                <MinValue/>
 
                 {error ? <div className={styles.errorMessage}>{errorMessage}</div> : ""}
             </div>

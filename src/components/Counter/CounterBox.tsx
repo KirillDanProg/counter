@@ -2,36 +2,24 @@ import styles from "../Counter.module.css";
 import React, {FC, useCallback} from "react";
 import {CounterControllers} from "./CounterControllers";
 import {CounterTotal} from "./CounterTotal";
+import {useSelector} from "react-redux";
+import {RootState} from "../../store/store";
 
-type CounterBoxPropsType = {
-    count: number
-    isMax: boolean
-    isMin: boolean
-    incrementCount: () => void
-    resetCount: () => void
-}
-export const CounterBox: FC<CounterBoxPropsType> = React.memo((props) => {
+export const CounterBox = React.memo(() => {
 
-    const {count, incrementCount, resetCount, isMax, isMin} = props
-    const x = useCallback(incrementCount, [])
-    const y = useCallback(resetCount, [])
+    const maxValue = useSelector<RootState, number>(state => state.counter.maxValue)
+    const count = useSelector<RootState, number>(state => state.counter.count)
 
     console.log("CounterBox")
 
     return (
-        <div className={`${styles.innerContainer}  ${isMax ? styles.contHit : ""}`}>
+        <div className={`${styles.innerContainer}  ${count <= maxValue ? styles.contHit : ""}`}>
             <div className={styles.mainContent}>
-                <CounterTotal count={count}
-                              isMax={isMax}
-                />
+                <CounterTotal/>
             </div>
 
             <div className={styles.secondaryContent}>
-                <CounterControllers incrementCount={x}
-                                    resetCount={y}
-                                    isMax={isMax}
-                                    isMin={isMin}
-                />
+                <CounterControllers />
             </div>
         </div>
     )

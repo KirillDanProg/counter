@@ -1,36 +1,36 @@
 import React, {FC, useCallback} from "react";
 import {Button} from "./Button";
 import styles from "../Counter.module.css"
+import {useDispatch, useSelector} from "react-redux";
+import {RootState} from "../../store/store";
+import {incrementAC, resetCountAC} from "../../store/reducer/counterReducer";
 
-type CounterControllersType = {
-    isMax: boolean
-    isMin: boolean
-    incrementCount: () => void
-    resetCount: () => void
-}
-export const CounterControllers: FC<CounterControllersType> = React.memo((props) => {
+export const CounterControllers = () => {
 
     console.log("Counter controllers")
 
-    const {isMin, isMax} = props
+    const maxValue = useSelector<RootState, number>(state => state.counter.maxValue)
+    const minValue = useSelector<RootState, number>(state => state.counter.minValue)
+    const count = useSelector<RootState, number>(state => state.counter.count)
+    const dispatch = useDispatch()
 
-    const increaseHandler = useCallback(() => {
-       props.incrementCount()
-    }, [])
 
-    const resetHandler = useCallback(() => {
-        props.resetCount()
-    },[props.resetCount])
+    const increaseHandler = () => {
+        dispatch(incrementAC())
+    }
+    const resetHandler = () => {
+        dispatch(resetCountAC())
+    }
 
     return (
 
         <div className={styles.btnContainer}>
-            <Button title={"inc"} callback={increaseHandler} disabled={isMax}
-                    className={`${styles.btn} ${isMax ? styles.disabled : ""}`}/>
-            <Button title={"reset"} callback={resetHandler} disabled={isMin}
-                    className={`${styles.btn} ${isMin ? styles.disabled : ""}`}/>
+            <Button title={"inc"} callback={increaseHandler} disabled={count >= maxValue}
+                    className={`${styles.btn} ${count >= maxValue ? styles.disabled : ""}`}/>
+            <Button title={"reset"} callback={resetHandler} disabled={count <= minValue}
+                    className={`${styles.btn} ${count <= minValue ? styles.disabled : ""}`}/>
         </div>
 
     )
-})
+}
 
