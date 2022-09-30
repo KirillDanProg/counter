@@ -1,4 +1,4 @@
-import React, {useCallback, useState} from 'react';
+import React from 'react';
 import "./App.css"
 import {CounterBox} from "./components/Counter/CounterBox";
 import {CounterSettings} from "./components/CoounterSettings/CounterSettings";
