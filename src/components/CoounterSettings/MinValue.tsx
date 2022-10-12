@@ -6,6 +6,8 @@ import {setErrorAC, setMinValueAC} from "../../store/reducer/counterReducer";
 
 export const MinValue = () => {
 
+    const error = useSelector<RootState, boolean>(state => state.counter.error)
+    const errorMessage = useSelector<RootState, string>(state => state.counter.errorMessage)
     const minValue = useSelector<RootState, number>(state => state.counter.minValue)
     const maxValue = useSelector<RootState, number>(state => state.counter.maxValue)
 
@@ -23,13 +25,17 @@ export const MinValue = () => {
     }
 
     return (
-        <label className={styles.setInputLabel}>
-            Min value:
-            <input value={minValue}
-                   onChange={changeStartValueHandler}
-                   className={`${styles.setInput} `} type={"number"}
-            />
-        </label>
+        <>
+            <label className={styles.setInputLabel}>
+                Min value:
+                <input value={minValue}
+                       onChange={changeStartValueHandler}
+                       className={`${styles.setInput} `} type={"number"}
+                />
+            </label>
+            {error ? <div className={styles.errorMessage}>{errorMessage}</div> : ""}
+        </>
+
     )
 
 };

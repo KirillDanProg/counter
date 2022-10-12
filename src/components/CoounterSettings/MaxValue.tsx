@@ -6,6 +6,8 @@ import {setErrorAC, setMaxValueAC} from "../../store/reducer/counterReducer";
 
 export const MaxValue = () => {
 
+    const error = useSelector<RootState, boolean>(state => state.counter.error)
+    const errorMessage = useSelector<RootState, string>(state => state.counter.errorMessage)
     const maxValue = useSelector<RootState, number>(state => state.counter.maxValue)
     const minValue = useSelector<RootState, number>(state => state.counter.minValue)
 
@@ -22,12 +24,16 @@ export const MaxValue = () => {
     }
 
     return (
-        <label className={styles.setInputLabel}>
-            Max value:
-            <input value={maxValue}
-                   onChange={changeMaxValueHandler}
-                   className={`${styles.setInput}`} type={"number"}
-            />
-        </label>
+        <>
+            <label className={styles.setInputLabel}>
+                Max value:
+                <input value={maxValue}
+                       onChange={changeMaxValueHandler}
+                       className={`${styles.setInput}`} type={"number"}
+                />
+            </label>
+            {error ? <div className={styles.errorMessage}>{errorMessage}</div> : ""}
+        </>
+
     )
 };
