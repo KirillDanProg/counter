@@ -1,8 +1,8 @@
 import React, {FC, useCallback} from "react";
 import {Button} from "./Button";
 import styles from "../Counter.module.css"
-import {useDispatch} from "react-redux";
 import {incrementAC, resetCountAC} from "../../store/reducer/counterReducer";
+import {useAppDispatch} from "../../hooks/hooks";
 
 type CounterControllersPropsType = {
     maxValue: number
@@ -13,10 +13,7 @@ export const CounterControllers: FC<CounterControllersPropsType>= React.memo((pr
 
     const {count, maxValue, minValue} = props
 
-    console.log("Counter controllers")
-
-    const dispatch = useDispatch()
-
+    const dispatch = useAppDispatch()
 
     const increaseHandler = useCallback(() => {
         dispatch(incrementAC())

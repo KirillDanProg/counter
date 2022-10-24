@@ -1,7 +1,8 @@
-import React from 'react';
+import React, {useEffect} from 'react';
 import "./App.css"
 import {CounterBox} from "./components/Counter/CounterBox";
 import {CounterSettings} from "./components/CoounterSettings/CounterSettings";
+
 
 export type StateType = {
     minValue: number
@@ -13,13 +14,11 @@ export type StateType = {
 
 function App() {
 
-    console.log("App")
-
     return (
         <div className={"wrapper"}>
             <div className={"counterBox"}>
 
-                <CounterBox />
+                <CounterBox/>
 
                 <CounterSettings/>
 
