@@ -1,24 +1,26 @@
-import React, {FC} from "react";
+import React, {FC, useCallback} from "react";
 import {Button} from "./Button";
 import styles from "../Counter.module.css"
+import {incrementAC, resetCountAC} from "../../store/reducer/counterReducer";
+import {useAppDispatch} from "../../hooks/hooks";
 
-type CounterControllersType = {
-    count: number
+type CounterControllersPropsType = {
     maxValue: number
     minValue: number
-    incrementCount: () => void
-    resetCount: () => void
+    count: number
 }
-export const CounterControllers: FC<CounterControllersType> = (props) => {
+export const CounterControllers: FC<CounterControllersPropsType>= React.memo((props) => {
+
     const {count, maxValue, minValue} = props
 
-    const increaseHandler = () => {
-       props.incrementCount()
-    }
+    const dispatch = useAppDispatch()
 
-    const resetHandler = () => {
-        props.resetCount()
-    }
+    const increaseHandler = useCallback(() => {
+        dispatch(incrementAC())
+    }, [dispatch])
+    const resetHandler = useCallback(() => {
+        dispatch(resetCountAC())
+    }, [dispatch])
 
     return (
 
@@ -30,5 +32,5 @@ export const CounterControllers: FC<CounterControllersType> = (props) => {
         </div>
 
     )
-}
+})
 

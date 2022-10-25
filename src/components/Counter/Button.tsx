@@ -7,7 +7,9 @@ type ButtonType = {
     className?: string
 
 }
-export const Button: FC<ButtonType> = ({title, callback, disabled, className}) => {
+export const Button: FC<ButtonType> = React.memo(({title, callback, disabled, className}) => {
+
+    console.log("Button")
 
     const onClickHandler = () => {
         callback()
@@ -16,4 +18,4 @@ export const Button: FC<ButtonType> = ({title, callback, disabled, className}) =
     return (
         <button onClick={onClickHandler} disabled={disabled} className={className}>{title}</button>
     )
-}
+})

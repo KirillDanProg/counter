@@ -1,26 +1,41 @@
 import styles from "../Counter.module.css";
-import React, {ChangeEvent, FC} from "react";
+import React from "react";
+import {useDispatch, useSelector} from "react-redux";
+import {RootState} from "../../store/store";
+import {setErrorAC, setMinValueAC} from "../../store/reducer/counterReducer";
 
-type MinValuePropsType = {
-    minValue: number
-    changeMinValue: (min: number) => void
-    error: boolean
-}
-export const MinValue: FC<MinValuePropsType> = (props) => {
+export const MinValue = () => {
+
+    const error = useSelector<RootState, boolean>(state => state.counter.error)
+    const errorMessage = useSelector<RootState, string>(state => state.counter.errorMessage)
+    const minValue = useSelector<RootState, number>(state => state.counter.minValue)
+    const maxValue = useSelector<RootState, number>(state => state.counter.maxValue)
+
+    const dispatch = useDispatch()
 
     const changeStartValueHandler = (e: React.ChangeEvent<HTMLInputElement>) => {
         const min = JSON.parse(e.currentTarget.value)
-        props.changeMinValue(min)
+        if (min > maxValue) {
+            dispatch(setErrorAC(true))
+        } else {
+            dispatch(setMinValueAC(min))
+            dispatch(setErrorAC(false))
+        }
+
     }
 
     return (
-        <label className={styles.setInputLabel}>
-            Min value:
-            <input value={props.minValue}
-                   onChange={changeStartValueHandler}
-                   className={`${styles.setInput} `} type={"number"}
-            />
-        </label>
+        <>
+            <label className={styles.setInputLabel}>
+                Min value:
+                <input value={minValue}
+                       onChange={changeStartValueHandler}
+                       className={`${styles.setInput} `} type={"number"}
+                />
+            </label>
+            {error ? <div className={styles.errorMessage}>{errorMessage}</div> : ""}
+        </>
+
     )
 
 };

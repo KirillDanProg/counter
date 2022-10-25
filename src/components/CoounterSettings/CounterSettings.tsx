@@ -1,49 +1,34 @@
-import React, {FC} from "react";
+import React from "react";
 import styles from "../Counter.module.css"
-import {CounterSettingsContainerPropsType} from "./CounterSettingsContainer";
 import {MaxValue} from "./MaxValue";
 import {MinValue} from "./MinValue";
+import { setLocalStorageValuesTC} from "../../store/reducer/counterReducer";
+import {useAppDispatch} from "../../hooks/hooks";
 
 
-export const CounterSettings: FC<CounterSettingsContainerPropsType> = (props) => {
 
-    const {setMaxValue, setMinValue, counter, setError, setErrorMessage} = props
+export const CounterSettings = React.memo(() => {
 
-    const changeMaxValueHandler = (max: number) => {
-        if (max < counter.minValue) {
-            setError(true)
-            setErrorMessage("value should be greater than minValue")
-        } else {
-            setError(false)
-            setMaxValue(max)
-        }
+    const dispatch = useAppDispatch()
 
+    const setValuesHandler = () => {
+        dispatch(setLocalStorageValuesTC())
     }
-    const changeStartValueHandler = (min: number) => {
-        if (min > counter.maxValue) {
-            setError(true)
-            setErrorMessage("value should be less than maxValue ")
-        } else if (min < 0) {
-            setError(true)
-            setErrorMessage("only positive number is available")
-        } else {
-            setError(false)
-            setMinValue(min)
-        }
-    }
+
     return (
         <div className={styles.innerContainer}>
             <div className={styles.mainContent}>
 
-                <MaxValue maxValue={counter.maxValue} error={counter.error} changeMaxValue={changeMaxValueHandler}/>
+                <MaxValue/>
 
 
-                <MinValue minValue={counter.minValue} changeMinValue={changeStartValueHandler} error={counter.error}/>
+                <MinValue/>
 
-                {counter.error ? <div className={styles.errorMessage}>{counter.errorMessage}</div> : ""}
+                <button onClick={setValuesHandler}>set</button>
+
             </div>
         </div>
     )
-};
+});
 
 
